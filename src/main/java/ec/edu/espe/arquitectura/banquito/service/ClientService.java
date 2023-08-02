@@ -59,6 +59,7 @@ public class ClientService {
                 throw new RuntimeException("La fecha de nacimiento es incorrecta");
             }
             client.setUniqueKey(UUID.randomUUID().toString());
+            client.setPassword("123");
             client.setCreationDate(new Date());
             client.setLastModifiedDate(new Date());
             client.setActivationDate(new Date());
@@ -276,7 +277,7 @@ public class ClientService {
         Client client = Client.builder().branchId(rq.getBranchId()).typeDocumentId(rq.getTypeDocumentId())
                 .documentId(rq.getDocumentId()).firstName(rq.getFirstName()).lastName(rq.getLastName())
                 .gender(rq.getGender()).birthDate(rq.getBirthDate()).emailAddress(rq.getEmailAddress())
-                .role(rq.getRole()).comments(rq.getComments()).state(rq.getState()).build();
+                .role(rq.getRole()).comments(rq.getComments()).state(rq.getState()).password(rq.getPassword()).build();
         return client;
 
     }
