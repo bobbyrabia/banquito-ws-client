@@ -14,7 +14,7 @@ import ec.edu.espe.arquitectura.banquito.service.ClientService;
 
 @RestController
 @RequestMapping("/api/v2/clients")
-@CrossOrigin(origins = "http://banquito-ws-client-production.up.railway.app")
+@CrossOrigin(origins = "http://banquito-ws-client-production.up.railway.app/doc/swagger-ui/index.html")
 public class ClientController {
     private final ClientService clientService;
 
