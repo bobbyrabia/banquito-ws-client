@@ -33,6 +33,16 @@ public class CompanyController {
 
     }
 
+    @GetMapping("/listCompanies")
+    public ResponseEntity<List<GroupCompanyRS>> obtainAllCompanies() {
+        try {
+            List<GroupCompanyRS> companies = this.groupCompanyService.obtainAllCompanies();
+            return ResponseEntity.ok(companies);
+        } catch (RuntimeException rte) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<GroupCompany> clientCreate(@RequestBody GroupCompanyRQ company) {
         try {

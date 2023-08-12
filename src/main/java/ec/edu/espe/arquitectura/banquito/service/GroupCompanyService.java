@@ -49,6 +49,15 @@ public class GroupCompanyService {
         }
     }
 
+    public List<GroupCompanyRS> obtainAllCompanies(){
+        List<GroupCompany> companies = this.groupCompanyRepository.findAll();
+        List<GroupCompanyRS> companiesRS = new ArrayList<>();
+        for (GroupCompany company : companies) {
+            companiesRS.add(this.transformCompanyRS(company));
+        }
+        return companiesRS;
+    }
+
     // Método para agregar un cliente como miembro de una compañia
     @Transactional
     public GroupCompany addMember(String groupName, List<GroupCompanyMemberRQ> membersRQ) {
