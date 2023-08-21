@@ -16,11 +16,6 @@ pipeline {
             steps {
                 sh 'mvn test'
             }
-            post {
-                always {
-                    junit '**/target/generated-test-sources/test-annotations/TEST-*.xml'
-                }
-            }
         }
     }
 }
