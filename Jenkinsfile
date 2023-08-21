@@ -1,13 +1,14 @@
-pipeline {
+pipeline{
     agent any
 
     tools {
         maven 'maven'
     }
     stages {
-        stage('test') {
+        stage('Build') {
             steps {
-                sh 'mvn clean compile test'
+                git 'https://github.com/bobbyrabia/banquito-ws-client.git'
+                sh './mvnw clean compile test'
             }
         }
     }
