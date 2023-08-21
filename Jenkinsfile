@@ -7,7 +7,8 @@ pipeline{
     stages {
         stage('Build') {
             steps {
-                sh './mvnw clean compile test'
+                git 'https://github.com/bobbyrabia/banquito-ws-client.git'
+                sh './mvnw clean compile'
             }
         }
     }
