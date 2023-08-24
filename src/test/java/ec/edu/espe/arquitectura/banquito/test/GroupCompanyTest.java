@@ -1,7 +1,8 @@
 package ec.edu.espe.arquitectura.banquito.test;
 
-import ec.edu.espe.arquitectura.banquito.model.GroupCompany;
-import ec.edu.espe.arquitectura.banquito.model.GroupCompanyMember;
+import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyMemberRQ;
+import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyRQ;
+import ec.edu.espe.arquitectura.banquito.model.*;
 import ec.edu.espe.arquitectura.banquito.repository.ClientRepository;
 import ec.edu.espe.arquitectura.banquito.repository.GroupCompanyRepository;
 import ec.edu.espe.arquitectura.banquito.service.GroupCompanyService;
@@ -12,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +26,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class GroupCompanyTest {
     private GroupCompany company;
+
+    private Client client;
     @InjectMocks
     private GroupCompanyService groupCompanyService;
 
@@ -60,6 +65,27 @@ public class GroupCompanyTest {
                 .comments("This is an example group")
                 .members(members)
                 .build();
+        ClientPhone phone = ClientPhone.builder().phoneType("OFF").phoneNumber("1234567890").isDefault(true).state("ACT").build();
+        ClientAddress address = ClientAddress.builder().locationId("1").isDefault(true).latitude(Float.parseFloat(String.valueOf(17.908736))).line1("Alcides Enriquez").line2("Chasqui").longitude(Float.parseFloat(String.valueOf(89.908736))).state("ACT").build();
+        List<ClientPhone> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(phone);
+        List<ClientAddress> addresses = new ArrayList<>();
+        addresses.add(address);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate;
+        try {
+            birthDate = dateFormat.parse("1990-01-15");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        this.client = Client.builder().id("123456").branchId("branch123").uniqueKey("key123")
+                .typeDocumentId("IDE").documentId("1722620489").
+                firstName("David").lastName("Tamayo").gender("MAS")
+                .birthDate(birthDate).emailAddress("datamayo4@espe.edu.ec")
+                .creationDate(new Date()).activationDate(new Date())
+                .lastModifiedDate(new Date()).role(null).state("ACT")
+                .closedDate(null).comments("test").password("123")
+                .addresses(addresses).phoneNumbers(phoneNumbers).build();
     }
 
     @Test
@@ -92,8 +118,75 @@ public class GroupCompanyTest {
     }
 
     @Test
-    void testAddMember(){
+    void testAddMember() {
+        List<GroupCompanyMemberRQ> membersRQ = new ArrayList<>();
+        GroupCompanyMemberRQ memberRQ = GroupCompanyMemberRQ.builder().groupRole("Presidente").clientId("key123").state("ACT").build();
+        membersRQ.add(memberRQ);
+        when(this.groupCompanyRepository.findFirstByGroupName("Example Group")).thenReturn(this.company);
+        when(this.clientRepository.findFirstByUniqueKey("key123")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.groupCompanyService.addMember("Example Group", membersRQ);
+        });
+        GroupCompanyMemberRQ duplicatedMemberRQ = GroupCompanyMemberRQ.builder().groupRole("Presidente").clientId("key123").state("ACT").build();
+        membersRQ.add(duplicatedMemberRQ);
+        assertThrows(RuntimeException.class, () -> {
+            this.groupCompanyService.addMember("Example Group", membersRQ);
+        });
+    }
 
+    @Test
+    void testCompanyCreate() {
+        GroupCompanyRQ companyRQ = GroupCompanyRQ.builder().branchId("123")
+                .locationId("456")
+                .groupName("Example Company")
+                .emailAddress("info@example.com")
+                .phoneNumber("123-456-7890")
+                .line1("123 Main St")
+                .line2("Suite 200")
+                .latitude(40.7128f)
+                .longitude(-74.0060f)
+                .state("ACT")
+                .comments("This is a comment.")
+                .build();
+        when(this.groupCompanyRepository.findFirstByGroupName("Example Company")).thenReturn(null);
+        assertDoesNotThrow(() -> {
+            this.groupCompanyService.companyCreate(companyRQ);
+        });
+
+    }
+
+    @Test
+    void testUpdateCompany() {
+        GroupCompanyRQ companyRQ = GroupCompanyRQ.builder().branchId("123")
+                .locationId("456")
+                .groupName("Example Company")
+                .emailAddress("info@example.com")
+                .phoneNumber("123-456-7890")
+                .line1("123 Main St")
+                .line2("Suite 200")
+                .latitude(40.7128f)
+                .longitude(-74.0060f)
+                .state("ACT")
+                .comments("This is a comment.")
+                .build();
+        when(this.groupCompanyRepository.findFirstByUniqueKey("uniqueKey123")).thenReturn(this.company);
+        assertDoesNotThrow(() -> {
+            this.groupCompanyService.updateCompany(companyRQ, "uniqueKey123");
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.groupCompanyService.updateCompany(companyRQ, "123");
+        });
+
+    }
+    @Test
+    void testDeleteCompany(){
+        when(this.groupCompanyRepository.findFirstByUniqueKey("uniqueKey123")).thenReturn(this.company);
+        assertDoesNotThrow(() -> {
+            this.groupCompanyService.deleteCompany("uniqueKey123");
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.groupCompanyService.deleteCompany("123");
+        });
     }
 
 }
