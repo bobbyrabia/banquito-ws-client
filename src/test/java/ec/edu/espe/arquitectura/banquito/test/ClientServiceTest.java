@@ -34,7 +34,7 @@ public class ClientServiceTest {
     private List<ClientPhone> phoneNumbers;
     private List<ClientAddress> addresses;
 
-    
+    private Client client;
 
     @InjectMocks
     private ClientService clientService;
@@ -47,72 +47,119 @@ public class ClientServiceTest {
         this.clientService = new ClientService(this.clientRepository);
         this.phone = ClientPhone.builder().phoneType("OFF").phoneNumber("1234567890").isDefault(true).state("ACT")
                 .build();
-        this.address = ClientAddress.builder().locationId("1").isDefault(true).latitude(null).line1("Alcides Enriquez")
-                .line2("Chasqui").longitude(null).state("ACT").build();
+        this.address = ClientAddress.builder().locationId("1").isDefault(true).latitude(Float.parseFloat(String.valueOf(17.908736))).line1("Alcides Enriquez")
+                .line2("Chasqui").longitude(Float.parseFloat(String.valueOf(89.908736))).state("ACT").build();
         this.phoneNumbers = new ArrayList<>();
         phoneNumbers.add(this.phone);
         this.addresses = new ArrayList<>();
         addresses.add(this.address);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate;
+        try {
+            birthDate = dateFormat.parse("1990-01-15");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        this.client = Client.builder().id("123456").branchId("branch123").uniqueKey("key123")
+                .typeDocumentId("IDE").documentId("1722620489").firstName("David")
+                .lastName("Tamayo").gender("MAS").birthDate(birthDate)
+                .emailAddress("datamayo4@espe.edu.ec").creationDate(new Date())
+                .activationDate(new Date()).lastModifiedDate(new Date()).role(null)
+                .state("ACT").closedDate(null).comments("test").password("123")
+                .addresses(addresses).phoneNumbers(phoneNumbers).build();
     }
 
     @Test
     void testObtainClientByDocumentTypeAndDocumentId() {
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date birthDate;
-            birthDate = dateFormat.parse("1990-01-15");
-            Client client = Client.builder().id("123456").branchId("branch123").uniqueKey("key123")
-                    .typeDocumentId("IDE").documentId("1722620489").firstName("David")
-                    .lastName("Tamayo").gender("MAS").birthDate(birthDate)
-                    .emailAddress("datamayo4@espe.edu.ec").creationDate(new Date())
-                    .activationDate(new Date()).lastModifiedDate(new Date()).role(null)
-                    .state("ACT").closedDate(null).comments("test").password("123")
-                    .addresses(addresses).phoneNumbers(phoneNumbers).build();
-
-            when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(client);
-            assertDoesNotThrow(() -> {
-                this.clientService.obtainClientByDocumentTypeAndDocumentId("IDE", "1722620489");
-            });
-            assertThrows(RuntimeException.class, () -> {
-                this.clientService.obtainClientByDocumentTypeAndDocumentId("IDE", "1176356789");
-            });
-            client.setState("INA");
-            assertThrows(RuntimeException.class, () -> {
-                this.clientService.obtainClientByDocumentTypeAndDocumentId("IDE", "1722620489");
-            });
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.clientService.obtainClientByDocumentTypeAndDocumentId("IDE", "1722620489");
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.obtainClientByDocumentTypeAndDocumentId("IDE", "1176356789");
+        });
+        this.client.setState("INA");
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.obtainClientByDocumentTypeAndDocumentId("IDE", "1722620489");
+        });
     }
 
     @Test
-    void testClienCreate(){
+    void testClientCreate() {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate;
+        Date badBirthDate;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date birthDate;
             birthDate = dateFormat.parse("1999-07-20");
-            Date badBirthDate;
             badBirthDate = dateFormat.parse("2023-12-25");
-            ClientRQ clientRQ = ClientRQ.builder().branchId("branch123")
-                    .typeDocumentId("IDE").documentId("1722620489").firstName("David")
-                    .lastName("Tamayo").gender("MAS").birthDate(birthDate)
-                    .emailAddress("datamayo4@espe.edu.ec")
-                    .role(null).comments("test create").password("123").build();
-
-            when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId(clientRQ.getTypeDocumentId(), clientRQ.getDocumentId())).thenReturn(null);
-            assertDoesNotThrow(() -> {
-                this.clientService.clientCreate(clientRQ);
-            });
-            clientRQ.setBirthDate(badBirthDate);
-            assertThrows(RuntimeException.class, () -> {
-                this.clientService.clientCreate(clientRQ);
-            });
-            
-
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        ClientRQ clientRQ = ClientRQ.builder().branchId("branch123")
+                .typeDocumentId("IDE").documentId("1722620489").firstName("David")
+                .lastName("Tamayo").gender("MAS").birthDate(birthDate)
+                .emailAddress("datamayo4@espe.edu.ec")
+                .role(null).comments("test create").password("123").build();
+
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId(clientRQ.getTypeDocumentId(), clientRQ.getDocumentId())).thenReturn(null);
+        assertDoesNotThrow(() -> {
+            this.clientService.clientCreate(clientRQ);
+        });
+        clientRQ.setBirthDate(badBirthDate);
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.clientCreate(clientRQ);
+        });
+    }
+
+    @Test
+    void testUpdateClient() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate;
+        try {
+            birthDate = dateFormat.parse("1999-07-20");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        ClientRQ clientRQ = ClientRQ.builder().branchId("branch222")
+                .typeDocumentId("IDE").documentId("1722620489").firstName("Lucas")
+                .lastName("Hernandez").gender("MAS").birthDate(birthDate)
+                .emailAddress("gugli10@hotmail.com")
+                .role(null).comments("modificado").password("1234").state("ACT").build();
+
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.clientService.updateClient(clientRQ, "IDE", "1722620489");
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.updateClient(clientRQ, "IDE", "1787654357");
+        });
+    }
+
+    @Test
+    void deleteClient() {
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.clientService.deleteClient("IDE", "1722620489");
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.deleteClient("RUC", "1722620489");
+        });
+    }
+
+    @Test
+    void addPhones() {
+    }
+
+    @Test
+    void updatePhone() {
+    }
+
+    @Test
+    void addAddresses() {
+    }
+
+    @Test
+    void updateAddress() {
     }
 }
