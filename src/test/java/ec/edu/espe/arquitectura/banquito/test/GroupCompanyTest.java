@@ -42,7 +42,7 @@ public class GroupCompanyTest {
         List<GroupCompanyMember> members = new ArrayList<>();
         GroupCompanyMember member = GroupCompanyMember.builder().groupRole("Admin")
                 .clientId("12345")
-                .state("Active")
+                .state("ACT")
                 .creationDate(new Date())
                 .lastModifiedDate(new Date())
                 .build();
@@ -178,8 +178,9 @@ public class GroupCompanyTest {
         });
 
     }
+
     @Test
-    void testDeleteCompany(){
+    void testDeleteCompany() {
         when(this.groupCompanyRepository.findFirstByUniqueKey("uniqueKey123")).thenReturn(this.company);
         assertDoesNotThrow(() -> {
             this.groupCompanyService.deleteCompany("uniqueKey123");
@@ -187,6 +188,22 @@ public class GroupCompanyTest {
         assertThrows(RuntimeException.class, () -> {
             this.groupCompanyService.deleteCompany("123");
         });
+    }
+
+    @Test
+    void testUpdateMember() {
+        when(this.groupCompanyRepository.findFirstByUniqueKey("uniqueKey123")).thenReturn(this.company);
+        GroupCompanyMemberRQ updateMemberRQ = GroupCompanyMemberRQ.builder().groupRole("Administrador").clientId("12345").state("INA").build();
+        assertDoesNotThrow(() -> {
+            this.groupCompanyService.updateMember("uniqueKey123", "12345", updateMemberRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.groupCompanyService.updateMember("123", "12345", updateMemberRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.groupCompanyService.updateMember("uniqueKey123", "123", updateMemberRQ);
+        });
+
     }
 
 }
