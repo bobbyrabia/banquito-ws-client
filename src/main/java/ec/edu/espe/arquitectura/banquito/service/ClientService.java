@@ -210,7 +210,7 @@ public class ClientService {
                     allLine2.add(clientAddress.getLine2());
                 }
 
-                if (this.hasDuplicates(allLine1) == true && this.hasDuplicates(allLine2) == true) {
+                if (this.hasDuplicates(allLine1) && this.hasDuplicates(allLine2)) {
                     throw new RuntimeException("Existen direcciones repetidas, volver a intentar");
                 } else {
                     clientTmp.setAddresses(newAddresses);
@@ -273,7 +273,7 @@ public class ClientService {
     }
 
     // funciones para la gestión de clientes
-    public Client transformClientRQ(ClientRQ rq) {
+    private Client transformClientRQ(ClientRQ rq) {
         Client client = Client.builder().branchId(rq.getBranchId()).typeDocumentId(rq.getTypeDocumentId())
                 .documentId(rq.getDocumentId()).firstName(rq.getFirstName()).lastName(rq.getLastName())
                 .gender(rq.getGender()).birthDate(rq.getBirthDate()).emailAddress(rq.getEmailAddress())
@@ -282,7 +282,7 @@ public class ClientService {
 
     }
 
-    public List<ClientPhone> transformClientPhonesRQ(List<ClientPhoneRQ> rq) {
+    private List<ClientPhone> transformClientPhonesRQ(List<ClientPhoneRQ> rq) {
         List<ClientPhone> clientPhones = new ArrayList<>();
         for (ClientPhoneRQ clientPhoneRQ : rq) {
             ClientPhone clientPhone = ClientPhone.builder().phoneNumber(clientPhoneRQ.getPhoneNumber())
@@ -293,7 +293,7 @@ public class ClientService {
         return clientPhones;
     }
 
-    public ClientRS transformClientRS(Client client) {
+    private ClientRS transformClientRS(Client client) {
         List<ClientPhoneRS> phoneNumbersRS = this.transformPhonesRS(client.getPhoneNumbers());
         List<ClientAddressRS> addressesRS = this.transformAddressesRS(client.getAddresses());
         ClientRS rs = ClientRS.builder().branchId(client.getBranchId())
@@ -310,7 +310,7 @@ public class ClientService {
     }
 
     // funciones para la gestión de direcciones
-    public List<ClientAddress> transformClientAddressesRQ(List<ClientAddressRQ> rq) {
+    private List<ClientAddress> transformClientAddressesRQ(List<ClientAddressRQ> rq) {
         List<ClientAddress> clientAddresses = new ArrayList<>();
         for (ClientAddressRQ clientAddressRQ : rq) {
             ClientAddress clientAddress = ClientAddress.builder().locationId(clientAddressRQ.getLocationId())
@@ -323,13 +323,13 @@ public class ClientService {
         return clientAddresses;
     }
 
-    public ClientAddress transformUpdateAddressRQ(ClientAddressRQ rq) {
+    private ClientAddress transformUpdateAddressRQ(ClientAddressRQ rq) {
         ClientAddress clientAddress = ClientAddress.builder().state(rq.getState()).isDefault(rq.getIsDefault())
                 .typeAddress(rq.getTypeAddress()).build();
         return clientAddress;
     }
 
-    public List<ClientAddressRS> transformAddressesRS(List<ClientAddress> addresses) {
+    private List<ClientAddressRS> transformAddressesRS(List<ClientAddress> addresses) {
         List<ClientAddressRS> clientAddressRS = new ArrayList<>();
         if (addresses == null) {
             clientAddressRS = null;

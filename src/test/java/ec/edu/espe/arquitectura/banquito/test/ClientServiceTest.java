@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ec.edu.espe.arquitectura.banquito.dto.ClientAddressRQ;
+import ec.edu.espe.arquitectura.banquito.dto.ClientPhoneRQ;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,10 +47,8 @@ public class ClientServiceTest {
     @BeforeEach
     void setUp() {
         this.clientService = new ClientService(this.clientRepository);
-        this.phone = ClientPhone.builder().phoneType("OFF").phoneNumber("1234567890").isDefault(true).state("ACT")
-                .build();
-        this.address = ClientAddress.builder().locationId("1").isDefault(true).latitude(Float.parseFloat(String.valueOf(17.908736))).line1("Alcides Enriquez")
-                .line2("Chasqui").longitude(Float.parseFloat(String.valueOf(89.908736))).state("ACT").build();
+        this.phone = ClientPhone.builder().phoneType("OFF").phoneNumber("1234567890").isDefault(true).state("ACT").build();
+        this.address = ClientAddress.builder().locationId("1").isDefault(true).latitude(Float.parseFloat(String.valueOf(17.908736))).line1("Alcides Enriquez").line2("Chasqui").longitude(Float.parseFloat(String.valueOf(89.908736))).state("ACT").build();
         this.phoneNumbers = new ArrayList<>();
         phoneNumbers.add(this.phone);
         this.addresses = new ArrayList<>();
@@ -60,13 +60,7 @@ public class ClientServiceTest {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        this.client = Client.builder().id("123456").branchId("branch123").uniqueKey("key123")
-                .typeDocumentId("IDE").documentId("1722620489").firstName("David")
-                .lastName("Tamayo").gender("MAS").birthDate(birthDate)
-                .emailAddress("datamayo4@espe.edu.ec").creationDate(new Date())
-                .activationDate(new Date()).lastModifiedDate(new Date()).role(null)
-                .state("ACT").closedDate(null).comments("test").password("123")
-                .addresses(addresses).phoneNumbers(phoneNumbers).build();
+        this.client = Client.builder().id("123456").branchId("branch123").uniqueKey("key123").typeDocumentId("IDE").documentId("1722620489").firstName("David").lastName("Tamayo").gender("MAS").birthDate(birthDate).emailAddress("datamayo4@espe.edu.ec").creationDate(new Date()).activationDate(new Date()).lastModifiedDate(new Date()).role(null).state("ACT").closedDate(null).comments("test").password("123").addresses(addresses).phoneNumbers(phoneNumbers).build();
     }
 
     @Test
@@ -96,11 +90,7 @@ public class ClientServiceTest {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        ClientRQ clientRQ = ClientRQ.builder().branchId("branch123")
-                .typeDocumentId("IDE").documentId("1722620489").firstName("David")
-                .lastName("Tamayo").gender("MAS").birthDate(birthDate)
-                .emailAddress("datamayo4@espe.edu.ec")
-                .role(null).comments("test create").password("123").build();
+        ClientRQ clientRQ = ClientRQ.builder().branchId("branch123").typeDocumentId("IDE").documentId("1722620489").firstName("David").lastName("Tamayo").gender("MAS").birthDate(birthDate).emailAddress("datamayo4@espe.edu.ec").role(null).comments("test create").password("123").build();
 
         when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId(clientRQ.getTypeDocumentId(), clientRQ.getDocumentId())).thenReturn(null);
         assertDoesNotThrow(() -> {
@@ -121,11 +111,7 @@ public class ClientServiceTest {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        ClientRQ clientRQ = ClientRQ.builder().branchId("branch222")
-                .typeDocumentId("IDE").documentId("1722620489").firstName("Lucas")
-                .lastName("Hernandez").gender("MAS").birthDate(birthDate)
-                .emailAddress("gugli10@hotmail.com")
-                .role(null).comments("modificado").password("1234").state("ACT").build();
+        ClientRQ clientRQ = ClientRQ.builder().branchId("branch222").typeDocumentId("IDE").documentId("1722620489").firstName("Lucas").lastName("Hernandez").gender("MAS").birthDate(birthDate).emailAddress("gugli10@hotmail.com").role(null).comments("modificado").password("1234").state("ACT").build();
 
         when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
         assertDoesNotThrow(() -> {
@@ -137,7 +123,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    void deleteClient() {
+    void testDeleteClient() {
         when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
         assertDoesNotThrow(() -> {
             this.clientService.deleteClient("IDE", "1722620489");
@@ -148,18 +134,76 @@ public class ClientServiceTest {
     }
 
     @Test
-    void addPhones() {
+    void testAddPhones() {
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
+        List<ClientPhoneRQ> phonesRQ = new ArrayList<>();
+        ClientPhoneRQ phoneRQ = ClientPhoneRQ.builder().phoneNumber("0999744275").phoneType("OFF").isDefault(true).build();
+        phonesRQ.add(phoneRQ);
+        assertDoesNotThrow(() -> {
+            this.clientService.addPhones("IDE", "1722620489", phonesRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.addPhones("RUC", "1722620489", phonesRQ);
+        });
+        ClientPhoneRQ duplicatedPhoneRQ = ClientPhoneRQ.builder().phoneNumber("0999744275").phoneType("HOM").isDefault(false).build();
+        phonesRQ.add(duplicatedPhoneRQ);
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.addPhones("IDE", "1722620489", phonesRQ);
+        });
     }
 
     @Test
-    void updatePhone() {
+    void testUpdatePhone() {
+        ClientPhoneRQ phoneRQ = ClientPhoneRQ.builder().phoneNumber("0999744275").phoneType("OFF").isDefault(true).state("INA").build();
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.clientService.updatePhone("IDE", "1722620489", "1234567890", phoneRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.updatePhone("RUC", "1722620489", "1234567890", phoneRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.updatePhone("IDE", "1722620489", "0987865122", phoneRQ);
+        });
     }
 
     @Test
-    void addAddresses() {
+    void testAddAddresses() {
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
+        List<ClientAddressRQ> addressesRQ = new ArrayList<>();
+        ClientAddressRQ addressRQ = ClientAddressRQ.builder().typeAddress("HOM").isDefault(true)
+                .latitude(Float.parseFloat("78.9890")).longitude(Float.parseFloat("-98.98"))
+                .locationId("address1").line1("calle1").line2("calle2").build();
+        addressesRQ.add(addressRQ);
+        assertDoesNotThrow(() -> {
+            this.clientService.addAddresses("IDE", "1722620489", addressesRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.addAddresses("RUC", "1722620489", addressesRQ);
+        });
+        ClientAddressRQ duplicatedAddressRQ = ClientAddressRQ.builder().typeAddress("OFF").isDefault(false)
+                .latitude(Float.parseFloat("78.9890")).longitude(Float.parseFloat("-98.98"))
+                .locationId("address1").line1("calle1").line2("calle2").build();
+        addressesRQ.add(duplicatedAddressRQ);
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.addAddresses("IDE", "1722620489", addressesRQ);
+        });
     }
 
     @Test
-    void updateAddress() {
+    void testUpdateAddress() {
+        ClientAddressRQ addressRQ = ClientAddressRQ.builder().typeAddress("HOM").isDefault(true)
+                .latitude(Float.parseFloat("78.9890")).longitude(Float.parseFloat("-98.98"))
+                .locationId("address1").line1("calle1").line2("calle2").build();
+        when(this.clientRepository.findFirstByTypeDocumentIdAndDocumentId("IDE", "1722620489")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.clientService.updateAddress("IDE", "1722620489", "Alcides Enriquez", "Chasqui", addressRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.updateAddress("RUC", "1722620489", "Alcides Enriquez", "Chasqui", addressRQ);
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.updateAddress("IDE", "1722620489", "calle8", "calle6", addressRQ);
+        });
     }
 }
