@@ -1,6 +1,5 @@
 package ec.edu.espe.arquitectura.banquito.test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ec.edu.espe.arquitectura.banquito.controller.ClientController;
 import ec.edu.espe.arquitectura.banquito.dto.ClientAddressRS;
 import ec.edu.espe.arquitectura.banquito.dto.ClientPhoneRS;
@@ -16,20 +15,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -88,7 +76,7 @@ public class ClientControllerTest {
     }
 
     @Test
-    void testObtainByDocumentTypeAndDocumentIdOk()  {
+    void testObtainByDocumentTypeAndDocumentIdOk() {
         ClientPhoneRS phoneRS = ClientPhoneRS.builder().phoneType("OFF").phoneNumber("1234567890").isDefault(true).state("ACT").build();
         ClientAddressRS addressRS = ClientAddressRS.builder().locationId("1").isDefault(true)
                 .latitude(Float.parseFloat(String.valueOf(17.908736)))
@@ -122,7 +110,7 @@ public class ClientControllerTest {
     }
 
     @Test
-    void testObtainByDocumentTypeAndDocumentIdNotFound(){
+    void testObtainByDocumentTypeAndDocumentIdNotFound() {
         String type = "RUC";
         String id = "1722620489";
         when(this.clientService.obtainClientByDocumentTypeAndDocumentId(type, id)).thenThrow(new RuntimeException());
@@ -132,8 +120,28 @@ public class ClientControllerTest {
     }
 
     @Test
-    void testClientUpdateOk() throws Exception {
-        /*String type = "IDE";
+    void testClientCreate(){
+        String type = "IDE";
+        String id = "1722620489";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate;
+        try {
+            birthDate = dateFormat.parse("1999-07-20");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        ClientRQ clientRQ = ClientRQ.builder().branchId("branch222")
+                .typeDocumentId("IDE").documentId("1722620489")
+                .firstName("Lucas").lastName("Hernandez")
+                .gender("MAS").birthDate(birthDate)
+                .emailAddress("gugli10@hotmail.com").role(null)
+                .comments("modificado").password("1234")
+                .state("ACT").build();
+        //when(this.clientService.clientCreate(clientRQ)).thenReturn()
+    }
+    @Test
+    void testClientUpdateOk() {
+        String type = "IDE";
         String id = "1722620489";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date birthDate;
@@ -150,16 +158,14 @@ public class ClientControllerTest {
                 .comments("modificado").password("1234")
                 .state("ACT").build();
         when(this.clientService.updateClient(eq(clientRQ), eq(type), eq(id))).thenReturn(this.client);
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v2/clients/updateClient/{documentType}/{documentId}", type, id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(clientRQ)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(this.client)));*/
+        ResponseEntity<Client> response = this.clientController.clientUpdate(clientRQ, type, id);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(this.client, response.getBody());
     }
 
     @Test
-    void testClientUpdateBadRequest() throws Exception {
-        /*String type = "IDE";
+    void testClientUpdateBadRequest() {
+        String type = "RUC";
         String id = "1722620489";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date birthDate;
@@ -176,10 +182,8 @@ public class ClientControllerTest {
                 .comments("modificado").password("1234")
                 .state("ACT").build();
         when(this.clientService.updateClient(eq(clientRQ), eq(type), eq(id))).thenThrow(new RuntimeException());
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/v2/clients/updateClient/{documentType}/{documentId}", type, id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(clientRQ)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());*/
+        ResponseEntity<Client> response = this.clientController.clientUpdate(clientRQ, type, id);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }
 
