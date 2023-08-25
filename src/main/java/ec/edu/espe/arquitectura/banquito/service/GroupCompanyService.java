@@ -55,6 +55,9 @@ public class GroupCompanyService {
         for (GroupCompany company : companies) {
             companiesRS.add(this.transformCompanyRS(company));
         }
+        if(companies.isEmpty()){
+            throw new RuntimeException("No hay compañias registradas");
+        }
         return companiesRS;
     }
 

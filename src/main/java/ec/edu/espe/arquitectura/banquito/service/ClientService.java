@@ -210,7 +210,7 @@ public class ClientService {
                     allLine2.add(clientAddress.getLine2());
                 }
 
-                if (this.hasDuplicates(allLine1) == true && this.hasDuplicates(allLine2) == true) {
+                if (this.hasDuplicates(allLine1) && this.hasDuplicates(allLine2)) {
                     throw new RuntimeException("Existen direcciones repetidas, volver a intentar");
                 } else {
                     clientTmp.setAddresses(newAddresses);
@@ -229,7 +229,7 @@ public class ClientService {
                     allLine1.add(clientAddress.getLine1());
                     allLine2.add(clientAddress.getLine2());
                 }
-                if (this.hasDuplicates(allLine1) == true && this.hasDuplicates(allLine2)) {
+                if (this.hasDuplicates(allLine1) && this.hasDuplicates(allLine2)) {
                     throw new RuntimeException("Existen direcciones repetidas, volver a intentar");
                 } else {
                     clientTmp.setAddresses(allAddresses);
