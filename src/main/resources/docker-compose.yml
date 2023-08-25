@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mongo-client:
+    image: mongo:latest
+    container_name: mongo-client
+    ports:
+      - 27017:27017
+  clientsapp:
+    image: clientsapp:0.1
+    depends_on:
+      - mongo-client
+    container_name: clientsapp
+    ports:
+      - 8761:8761
+    build: .
+

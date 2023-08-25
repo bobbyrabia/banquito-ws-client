@@ -213,5 +213,25 @@ public class ClientControllerTest {
         ResponseEntity<Client> response = this.clientController.clientUpdate(clientRQ, type, id);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
+    @Test
+    void testDeleteClientOk(){
+        String type = "IDE";
+        String id = "1722620489";
+        when(this.clientService.deleteClient(type, id)).thenReturn(this.client);
+        ResponseEntity<Client> response = this.clientController.clientDelete(type, id);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(this.client, response.getBody());
+    }
+
+    @Test
+    void testDeleteClientBadRequest(){
+        String type = "RUC";
+        String id = "1722620489";
+        when(this.clientService.deleteClient(type, id)).thenThrow(new RuntimeException());
+        ResponseEntity<Client> response = this.clientController.clientDelete(type, id);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
 }
 
