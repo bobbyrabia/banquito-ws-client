@@ -120,24 +120,50 @@ public class ClientControllerTest {
     }
 
     @Test
-    void testClientCreate(){
+    void testClientCreateOk(){
         String type = "IDE";
         String id = "1722620489";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date birthDate;
         try {
-            birthDate = dateFormat.parse("1999-07-20");
+            birthDate = dateFormat.parse("1990-01-15");
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        ClientRQ clientRQ = ClientRQ.builder().branchId("branch222")
+        ClientRQ clientRQ = ClientRQ.builder().branchId("branch123")
                 .typeDocumentId("IDE").documentId("1722620489")
-                .firstName("Lucas").lastName("Hernandez")
+                .firstName("David").lastName("Tamayo")
                 .gender("MAS").birthDate(birthDate)
-                .emailAddress("gugli10@hotmail.com").role(null)
-                .comments("modificado").password("1234")
+                .emailAddress("datamayo4@espe.edu.ec").role(null)
+                .comments("test").password("123")
                 .state("ACT").build();
-        //when(this.clientService.clientCreate(clientRQ)).thenReturn()
+        when(this.clientService.clientCreate(eq(clientRQ))).thenReturn(this.client);
+        ResponseEntity<Client> response = clientController.clientCreate(clientRQ);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(this.client, response.getBody());
+
+    }
+    @Test
+    void testClientCreateBadRequest(){
+        String type = "IDE";
+        String id = "1722620489";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate;
+        try {
+            birthDate = dateFormat.parse("1990-01-15");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        ClientRQ clientRQ = ClientRQ.builder().branchId("branch123")
+                .typeDocumentId("IDE").documentId("1722620489")
+                .firstName("David").lastName("Tamayo")
+                .gender("MAS").birthDate(birthDate)
+                .emailAddress("datamayo4@espe.edu.ec").role(null)
+                .comments("test").password("123")
+                .state("ACT").build();
+        when(this.clientService.clientCreate(eq(clientRQ))).thenThrow(new RuntimeException());
+        ResponseEntity<Client> response = clientController.clientCreate(clientRQ);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
     @Test
     void testClientUpdateOk() {
@@ -162,6 +188,8 @@ public class ClientControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(this.client, response.getBody());
     }
+
+
 
     @Test
     void testClientUpdateBadRequest() {
