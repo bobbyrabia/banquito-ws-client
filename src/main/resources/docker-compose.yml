@@ -10,7 +10,19 @@ services:
     depends_on:
       - mongo-client
     container_name: clientsapp
+    environment:
+      - SERVER_PORT=9004
     ports:
-      - 8761:8761
+      - 9004:9004
+    build: .
+  clientsapp-2:
+    image: clientsapp:0.1
+    depends_on:
+    - mongo-client
+    container_name: clientsapp-2
+    environment:
+      - SERVER_PORT=9003
+    ports:
+      - 9003:9003
     build: .
 
