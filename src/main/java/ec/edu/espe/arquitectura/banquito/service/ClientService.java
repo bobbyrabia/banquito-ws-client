@@ -67,9 +67,6 @@ public class ClientService {
         if (clientTmp == null) {
             throw new RuntimeException("Parametros de búsqueda incorrectos");
         } else {
-            if ("INA".equals(clientTmp.getState())) {
-                throw new RuntimeException("El cliente ya no se encuentra disponible");
-            }
             return clientTmp;
         }
     }
