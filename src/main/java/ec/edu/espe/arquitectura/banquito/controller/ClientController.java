@@ -14,6 +14,7 @@ import ec.edu.espe.arquitectura.banquito.service.ClientService;
 
 @RestController
 @RequestMapping("/api/v2/clients")
+@CrossOrigin
 public class ClientController {
     private final ClientService clientService;
 
