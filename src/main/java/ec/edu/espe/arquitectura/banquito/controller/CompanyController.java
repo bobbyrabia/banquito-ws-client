@@ -13,7 +13,6 @@ import ec.edu.espe.arquitectura.banquito.service.GroupCompanyService;
 
 @RestController
 @RequestMapping("/api/v2/companies")
-@CrossOrigin(origins = "*")
 public class CompanyController {
     private final GroupCompanyService groupCompanyService;
 
