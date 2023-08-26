@@ -32,7 +32,28 @@ public class ClientController {
         } catch (RuntimeException rte) {
             return ResponseEntity.notFound().build();
         }
+    }
 
+    @GetMapping("/{uniqueKey}")
+    public ResponseEntity<ClientRS> obtainById(
+            @PathVariable(name = "uniqueKey") String uniqueKey) {
+        try {
+            ClientRS client = this.clientService.obtainClientById(uniqueKey);
+            return ResponseEntity.ok(client);
+        } catch (RuntimeException rte) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/login/{uniqueKey}")
+    public ResponseEntity<ClientRS> obtainLogin(
+            @PathVariable(name = "uniqueKey") String uniqueKey) {
+        try {
+            ClientRS client = this.clientService.obtainLogin(uniqueKey);
+            return ResponseEntity.ok(client);
+        } catch (RuntimeException rte) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
