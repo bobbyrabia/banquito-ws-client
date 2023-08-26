@@ -117,6 +117,48 @@ public class ClientControllerTest {
     }
 
     @Test
+    void testObtainById() {
+        ClientPhoneRS phoneRS = ClientPhoneRS.builder().phoneType("OFF").phoneNumber("1234567890").isDefault(true).state("ACT").build();
+        ClientAddressRS addressRS = ClientAddressRS.builder().locationId("1").isDefault(true)
+                .latitude(Float.parseFloat(String.valueOf(17.908736)))
+                .line1("Alcides Enriquez").line2("Chasqui")
+                .longitude(Float.parseFloat(String.valueOf(89.908736))).state("ACT").build();
+        List<ClientPhoneRS> phoneNumbers = new ArrayList<>();
+        phoneNumbers.add(phoneRS);
+        List<ClientAddressRS> addresses = new ArrayList<>();
+        addresses.add(addressRS);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date birthDate;
+        try {
+            birthDate = dateFormat.parse("1990-01-15");
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        this.clientRS = ClientRS.builder().branchId("branch123")
+                .uniqueKey("key123").typeDocumentId("IDE")
+                .documentId("1722620489").firstName("David")
+                .lastName("Tamayo").gender("MAS").birthDate(birthDate)
+                .emailAddress("datamayo4@espe.edu.ec").creationDate(new Date())
+                .activationDate(new Date())
+                .lastModifiedDate(new Date()).role(null).
+                state("ACT").closedDate(null).comments("test").addresses(addresses).phoneNumbers(phoneNumbers).build();
+        when(this.clientService.obtainClientById("key123")).thenReturn(this.clientRS);
+        ResponseEntity<ClientRS> response = this.clientController.obtainById("key123");
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(this.clientRS, response.getBody());
+
+    }
+
+    @Test
+    void testObtainByIdNotFound() {
+        String id = "key12";
+        when(this.clientService.obtainClientById(id)).thenThrow(new RuntimeException());
+        ResponseEntity<ClientRS> response = this.clientController.obtainById(id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+    @Test
     void testClientCreateOk() {
         String type = "IDE";
         String id = "1722620489";
@@ -333,6 +375,7 @@ public class ClientControllerTest {
         assertEquals("Dirección actualizada", response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
     @Test
     void testUpdateAddressBadRequest() {
         String type = "IDE";

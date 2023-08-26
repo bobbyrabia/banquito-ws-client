@@ -76,6 +76,31 @@ public class ClientServiceTest {
     }
 
     @Test
+    void testObtainClientById(){
+        when(this.clientRepository.findFirstByUniqueKey("key123")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.clientService.obtainClientById("key123");
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.obtainClientById("key");
+        });
+        this.client.setState("INA");
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.obtainClientById("key123");
+        });
+    }
+    @Test
+    void testObtainLogin(){
+        when(this.clientRepository.findFirstByUniqueKey("key123")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            this.clientService.obtainLogin("key123");
+        });
+        assertThrows(RuntimeException.class, () -> {
+            this.clientService.obtainLogin("key");
+        });
+    }
+
+    @Test
     void testClientCreate() {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
