@@ -1,10 +1,7 @@
 package ec.edu.espe.arquitectura.banquito.test;
 
 import ec.edu.espe.arquitectura.banquito.controller.ClientController;
-import ec.edu.espe.arquitectura.banquito.dto.ClientAddressRS;
-import ec.edu.espe.arquitectura.banquito.dto.ClientPhoneRS;
-import ec.edu.espe.arquitectura.banquito.dto.ClientRQ;
-import ec.edu.espe.arquitectura.banquito.dto.ClientRS;
+import ec.edu.espe.arquitectura.banquito.dto.*;
 import ec.edu.espe.arquitectura.banquito.model.Client;
 import ec.edu.espe.arquitectura.banquito.model.ClientAddress;
 import ec.edu.espe.arquitectura.banquito.model.ClientPhone;
@@ -27,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -120,7 +117,7 @@ public class ClientControllerTest {
     }
 
     @Test
-    void testClientCreateOk(){
+    void testClientCreateOk() {
         String type = "IDE";
         String id = "1722620489";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -143,8 +140,9 @@ public class ClientControllerTest {
         assertEquals(this.client, response.getBody());
 
     }
+
     @Test
-    void testClientCreateBadRequest(){
+    void testClientCreateBadRequest() {
         String type = "IDE";
         String id = "1722620489";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -165,6 +163,7 @@ public class ClientControllerTest {
         ResponseEntity<Client> response = clientController.clientCreate(clientRQ);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
     @Test
     void testClientUpdateOk() {
         String type = "IDE";
@@ -190,7 +189,6 @@ public class ClientControllerTest {
     }
 
 
-
     @Test
     void testClientUpdateBadRequest() {
         String type = "RUC";
@@ -213,5 +211,142 @@ public class ClientControllerTest {
         ResponseEntity<Client> response = this.clientController.clientUpdate(clientRQ, type, id);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
+    @Test
+    void testDeleteClientOk() {
+        String type = "IDE";
+        String id = "1722620489";
+        when(this.clientService.deleteClient(type, id)).thenReturn(this.client);
+        ResponseEntity<Client> response = this.clientController.clientDelete(type, id);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(this.client, response.getBody());
+    }
+
+    @Test
+    void testDeleteClientBadRequest() {
+        String type = "RUC";
+        String id = "1722620489";
+        when(this.clientService.deleteClient(type, id)).thenThrow(new RuntimeException());
+        ResponseEntity<Client> response = this.clientController.clientDelete(type, id);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testAddPhonesOk() {
+        String type = "IDE";
+        String id = "1722620489";
+        List<ClientPhoneRQ> phonesRQ = new ArrayList<>();
+        ClientPhoneRQ phoneRQ = ClientPhoneRQ.builder()
+                .phoneNumber("0999744275").phoneType("OFF")
+                .isDefault(true).build();
+        phonesRQ.add(phoneRQ);
+        when(this.clientService.addPhones(type, id, phonesRQ)).thenReturn(this.client);
+        ResponseEntity<Client> response = this.clientController.addPhones(phonesRQ, type, id);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(this.client, response.getBody());
+    }
+
+    @Test
+    void testAddPhonesBadRequest() {
+        String type = "RUC";
+        String id = "1722620489";
+        List<ClientPhoneRQ> phonesRQ = new ArrayList<>();
+        ClientPhoneRQ phoneRQ = ClientPhoneRQ.builder()
+                .phoneNumber("0999744275").phoneType("OFF")
+                .isDefault(true).build();
+        phonesRQ.add(phoneRQ);
+        when(this.clientService.addPhones(type, id, phonesRQ)).thenThrow(new RuntimeException());
+        ResponseEntity<Client> response = this.clientController.addPhones(phonesRQ, type, id);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+
+    }
+
+    @Test
+    void testUpdatePhoneOk() {
+        String type = "IDE";
+        String id = "1722620489";
+        String phone = "1234567890";
+        ClientPhoneRQ phoneRQ = ClientPhoneRQ.builder()
+                .phoneNumber("0999744275").phoneType("OFF")
+                .isDefault(true).build();
+
+        doNothing().when(this.clientService).updatePhone(type, id, phone, phoneRQ);
+        ResponseEntity<String> response = this.clientController.updatePhone(phoneRQ, type, id, phone);
+        assertEquals("Teléfono actualizado", response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    void testUpdatePhoneBadRequest() {
+        String type = "IDE";
+        String id = "1722620489";
+        String phone = "1234567890";
+        ClientPhoneRQ phoneRQ = ClientPhoneRQ.builder()
+                .phoneNumber("0999744275").phoneType("OFF")
+                .isDefault(true).build();
+        doThrow(new RuntimeException()).when(this.clientService).updatePhone(type, id, phone, phoneRQ);
+        ResponseEntity<String> response = this.clientController.updatePhone(phoneRQ, type, id, phone);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testAddAddressesOk() {
+        String type = "IDE";
+        String id = "1722620489";
+        List<ClientAddressRQ> addressesRQ = new ArrayList<>();
+        ClientAddressRQ addressRQ = ClientAddressRQ.builder().typeAddress("HOM").isDefault(true)
+                .latitude(Float.parseFloat("78.9890")).longitude(Float.parseFloat("-98.98"))
+                .locationId("address1").line1("calle1").line2("calle2").build();
+        addressesRQ.add(addressRQ);
+        when(this.clientService.addAddresses(type, id, addressesRQ)).thenReturn(this.client);
+        ResponseEntity<Client> response = this.clientController.addAddresses(addressesRQ, type, id);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(this.client, response.getBody());
+    }
+
+    @Test
+    void testAddAddressesBadRequest() {
+        String type = "RUC";
+        String id = "1722620489";
+        List<ClientAddressRQ> addressesRQ = new ArrayList<>();
+        ClientAddressRQ addressRQ = ClientAddressRQ.builder().typeAddress("HOM").isDefault(true)
+                .latitude(Float.parseFloat("78.9890")).longitude(Float.parseFloat("-98.98"))
+                .locationId("address1").line1("calle1").line2("calle2").build();
+        addressesRQ.add(addressRQ);
+        when(this.clientService.addAddresses(type, id, addressesRQ)).thenThrow(new RuntimeException());
+        ResponseEntity<Client> response = this.clientController.addAddresses(addressesRQ, type, id);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    void testUpdateAddressOk() {
+        String type = "IDE";
+        String id = "1722620489";
+        String line1 = "calle1";
+        String line2 = "calle2";
+        ClientAddressRQ addressRQ = ClientAddressRQ.builder().typeAddress("HOM").isDefault(true)
+                .latitude(Float.parseFloat("78.9890")).longitude(Float.parseFloat("-98.98"))
+                .locationId("address1").line1("calle1").line2("calle2").build();
+
+        doNothing().when(this.clientService).updateAddress(type, id, line1, line2, addressRQ);
+        ResponseEntity<String> response = this.clientController.updateAddress(addressRQ, type, id, line1, line2);
+        assertEquals("Dirección actualizada", response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test
+    void testUpdateAddressBadRequest() {
+        String type = "IDE";
+        String id = "1722620489";
+        String line1 = "calle1";
+        String line2 = "calle2";
+        ClientAddressRQ addressRQ = ClientAddressRQ.builder().typeAddress("HOM").isDefault(true)
+                .latitude(Float.parseFloat("78.9890")).longitude(Float.parseFloat("-98.98"))
+                .locationId("address1").line1("calle1").line2("calle2").build();
+
+        doThrow(new RuntimeException()).when(this.clientService).updateAddress(type, id, line1, line2, addressRQ);
+        ResponseEntity<String> response = this.clientController.updateAddress(addressRQ, type, id, line1, line2);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
 }
 
