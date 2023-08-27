@@ -2,6 +2,8 @@ package ec.edu.espe.arquitectura.banquito.controller;
 
 import java.util.List;
 
+import ec.edu.espe.arquitectura.banquito.dto.ClientRS;
+import ec.edu.espe.arquitectura.banquito.model.Client;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,17 @@ public class CompanyController {
         try {
             GroupCompanyRS company = this.groupCompanyService.obtainCompanyByGroupName(groupName);
             return ResponseEntity.ok(company);
+        } catch (RuntimeException rte) {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+    @GetMapping("/membersById/{groupName}")
+    public ResponseEntity<List<ClientRS>> obtainMembersByGroupName(
+            @PathVariable(name = "groupName") String groupName) {
+        try {
+            List<ClientRS> members = this.groupCompanyService.listMembersByCompany(groupName);
+            return ResponseEntity.ok(members);
         } catch (RuntimeException rte) {
             return ResponseEntity.notFound().build();
         }

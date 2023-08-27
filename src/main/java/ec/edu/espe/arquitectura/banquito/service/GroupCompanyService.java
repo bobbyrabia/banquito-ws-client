@@ -7,13 +7,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import ec.edu.espe.arquitectura.banquito.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyMemberRQ;
-import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyMemberRS;
-import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyRQ;
-import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyRS;
 import ec.edu.espe.arquitectura.banquito.model.Client;
 import ec.edu.espe.arquitectura.banquito.model.GroupCompany;
 import ec.edu.espe.arquitectura.banquito.model.GroupCompanyMember;
@@ -46,6 +43,26 @@ public class GroupCompanyService {
                 throw new RuntimeException("La organización ya no se encuentra disponible");
             }
             return companyTmp;
+        }
+    }
+
+    public List<ClientRS> listMembersByCompany(String groupName){
+        GroupCompany company = this.groupCompanyRepository.findFirstByGroupName(groupName);
+        GroupCompanyRS companyTmp = this.transformCompanyRS(company);
+        if (companyTmp == null) {
+            throw new RuntimeException("Parametros de búsqueda incorrectos");
+        } else {
+            if ("INA".equals(companyTmp.getState())) {
+                throw new RuntimeException("La organización ya no se encuentra disponible");
+            }
+            List<GroupCompanyMemberRS> members = companyTmp.getMembers();
+            List<ClientRS> clientsRS = new ArrayList<>();
+            ClientService clientService = new ClientService(this.clientRepository);
+            for(GroupCompanyMemberRS memberRS : members){
+               ClientRS clientRS = clientService.obtainClientById(memberRS.getClientId());
+               clientsRS.add(clientRS);
+            }
+            return clientsRS;
         }
     }
 
@@ -270,5 +287,7 @@ public class GroupCompanyService {
                 .build();
         return member;
     }
+
+
 
 }
