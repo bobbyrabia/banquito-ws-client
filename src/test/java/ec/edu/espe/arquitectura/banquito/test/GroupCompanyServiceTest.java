@@ -1,7 +1,6 @@
 package ec.edu.espe.arquitectura.banquito.test;
 
-import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyMemberRQ;
-import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyRQ;
+import ec.edu.espe.arquitectura.banquito.dto.*;
 import ec.edu.espe.arquitectura.banquito.model.*;
 import ec.edu.espe.arquitectura.banquito.repository.ClientRepository;
 import ec.edu.espe.arquitectura.banquito.repository.GroupCompanyRepository;
@@ -41,7 +40,7 @@ public class GroupCompanyServiceTest {
     void setUp() {
         List<GroupCompanyMember> members = new ArrayList<>();
         GroupCompanyMember member = GroupCompanyMember.builder().groupRole("Admin")
-                .clientId("12345")
+                .clientId("123456")
                 .state("ACT")
                 .creationDate(new Date())
                 .lastModifiedDate(new Date())
@@ -193,17 +192,44 @@ public class GroupCompanyServiceTest {
     @Test
     void testUpdateMember() {
         when(this.groupCompanyRepository.findFirstByUniqueKey("uniqueKey123")).thenReturn(this.company);
-        GroupCompanyMemberRQ updateMemberRQ = GroupCompanyMemberRQ.builder().groupRole("Administrador").clientId("12345").state("INA").build();
+        GroupCompanyMemberRQ updateMemberRQ = GroupCompanyMemberRQ.builder().groupRole("Administrador").clientId("123456").state("INA").build();
         assertDoesNotThrow(() -> {
-            this.groupCompanyService.updateMember("uniqueKey123", "12345", updateMemberRQ);
+            this.groupCompanyService.updateMember("uniqueKey123", "123456", updateMemberRQ);
         });
         assertThrows(RuntimeException.class, () -> {
-            this.groupCompanyService.updateMember("123", "12345", updateMemberRQ);
+            this.groupCompanyService.updateMember("123", "123456", updateMemberRQ);
         });
         assertThrows(RuntimeException.class, () -> {
             this.groupCompanyService.updateMember("uniqueKey123", "123", updateMemberRQ);
         });
 
     }
+    @Test
+    void testListMembersByCompany(){
+        GroupCompanyMemberRS memberRS = GroupCompanyMemberRS.builder().groupRole("Presidente").clientId("key123").build();
+        List<GroupCompanyMemberRS> members = new ArrayList<>();
+        members.add(memberRS);
+        GroupCompanyRS companyRS = GroupCompanyRS.builder().groupName("My Group")
+                .emailAddress("group@example.com")
+                .phoneNumber("123-456-7890")
+                .line1("123 Main Street")
+                .line2("Suite 456")
+                .latitude(37.7749f)
+                .longitude(-122.4194f)
+                .creationDate(new Date())
+                .activationDate(new Date())
+                .lastModifiedDate(new Date())
+                .state("ACT")
+                .closedDate(null)
+                .comments("test").members(members).build();
+        when(this.groupCompanyRepository.findFirstByGroupName("Example Group")).thenReturn(this.company);
+        when(this.clientRepository.findFirstByUniqueKey("123456")).thenReturn(this.client);
+        assertDoesNotThrow(() -> {
+            groupCompanyService.listMembersByCompany("Example Group");
+        });
+
+    }
+
+
 
 }
