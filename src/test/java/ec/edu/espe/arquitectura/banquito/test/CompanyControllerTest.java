@@ -19,7 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -223,5 +225,33 @@ public class CompanyControllerTest {
         when(this.groupCompanyService.deleteCompany(id)).thenThrow(new RuntimeException());
         ResponseEntity<GroupCompany> response = this.companyController.companyDelete(id);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void testObtainMembersByGroupName() {
+        String groupName = "groupName";
+        List<ClientRS> expectedMembers = new ArrayList<>();
+        when(this.groupCompanyService.listMembersByCompany(groupName)).thenReturn(expectedMembers);
+
+        ResponseEntity<List<ClientRS>> responseEntity = this.companyController.obtainMembersByGroupName(groupName);
+
+        verify(this.groupCompanyService).listMembersByCompany(groupName);
+
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedMembers, responseEntity.getBody());
+    }
+
+    @Test
+    public void testObtainMembersByGroupNameError() {
+        String groupName = "groupName";
+        when(this.groupCompanyService.listMembersByCompany(groupName)).thenThrow(new RuntimeException());
+
+        ResponseEntity<List<ClientRS>> responseEntity = this.companyController.obtainMembersByGroupName(groupName);
+
+        verify(this.groupCompanyService).listMembersByCompany(groupName);
+
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 }
