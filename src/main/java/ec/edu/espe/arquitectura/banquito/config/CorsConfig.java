@@ -13,7 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
+                        .allowedOrigins("https://banquito-backoffice.web.app/")
                         .exposedHeaders("Content-Disposition")
                         .allowedMethods("*");
             }
