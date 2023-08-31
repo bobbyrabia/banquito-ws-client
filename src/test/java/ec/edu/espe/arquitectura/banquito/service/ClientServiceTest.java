@@ -1,17 +1,12 @@
-package ec.edu.espe.arquitectura.banquito.test;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+package ec.edu.espe.arquitectura.banquito.service;
 
 import ec.edu.espe.arquitectura.banquito.dto.ClientAddressRQ;
 import ec.edu.espe.arquitectura.banquito.dto.ClientPhoneRQ;
+import ec.edu.espe.arquitectura.banquito.dto.ClientRQ;
+import ec.edu.espe.arquitectura.banquito.model.Client;
+import ec.edu.espe.arquitectura.banquito.model.ClientAddress;
+import ec.edu.espe.arquitectura.banquito.model.ClientPhone;
+import ec.edu.espe.arquitectura.banquito.repository.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,12 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import ec.edu.espe.arquitectura.banquito.dto.ClientRQ;
-import ec.edu.espe.arquitectura.banquito.model.Client;
-import ec.edu.espe.arquitectura.banquito.model.ClientAddress;
-import ec.edu.espe.arquitectura.banquito.model.ClientPhone;
-import ec.edu.espe.arquitectura.banquito.repository.ClientRepository;
-import ec.edu.espe.arquitectura.banquito.service.ClientService;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ClientServiceTest {

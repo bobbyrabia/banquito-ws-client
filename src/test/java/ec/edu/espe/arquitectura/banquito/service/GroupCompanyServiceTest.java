@@ -1,10 +1,12 @@
-package ec.edu.espe.arquitectura.banquito.test;
+package ec.edu.espe.arquitectura.banquito.service;
 
-import ec.edu.espe.arquitectura.banquito.dto.*;
+import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyMemberRQ;
+import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyMemberRS;
+import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyRQ;
+import ec.edu.espe.arquitectura.banquito.dto.GroupCompanyRS;
 import ec.edu.espe.arquitectura.banquito.model.*;
 import ec.edu.espe.arquitectura.banquito.repository.ClientRepository;
 import ec.edu.espe.arquitectura.banquito.repository.GroupCompanyRepository;
-import ec.edu.espe.arquitectura.banquito.service.GroupCompanyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

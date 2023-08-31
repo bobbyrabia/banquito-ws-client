@@ -1,6 +1,5 @@
-package ec.edu.espe.arquitectura.banquito.test;
+package ec.edu.espe.arquitectura.banquito.controller;
 
-import ec.edu.espe.arquitectura.banquito.controller.CompanyController;
 import ec.edu.espe.arquitectura.banquito.dto.*;
 import ec.edu.espe.arquitectura.banquito.model.GroupCompany;
 import ec.edu.espe.arquitectura.banquito.model.GroupCompanyMember;
@@ -18,8 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

@@ -1,6 +1,5 @@
-package ec.edu.espe.arquitectura.banquito.test;
+package ec.edu.espe.arquitectura.banquito.controller;
 
-import ec.edu.espe.arquitectura.banquito.controller.ClientController;
 import ec.edu.espe.arquitectura.banquito.dto.*;
 import ec.edu.espe.arquitectura.banquito.model.Client;
 import ec.edu.espe.arquitectura.banquito.model.ClientAddress;
@@ -15,17 +14,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 public class ClientControllerTest {
@@ -392,4 +390,3 @@ public class ClientControllerTest {
     }
 
 }
-
