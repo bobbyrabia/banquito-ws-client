@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +82,7 @@ public class ClientService {
                 throw new RuntimeException("La fecha de nacimiento es incorrecta");
             }
             client.setUniqueKey(UUID.randomUUID().toString());
-            client.setPassword("123");
+            client.setPassword(new BCryptPasswordEncoder().encode("123"));
             client.setCreationDate(new Date());
             client.setLastModifiedDate(new Date());
             client.setActivationDate(new Date());
