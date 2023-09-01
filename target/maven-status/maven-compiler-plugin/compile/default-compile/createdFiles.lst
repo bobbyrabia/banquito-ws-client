@@ -8,6 +8,7 @@ ec\edu\espe\arquitectura\banquito\model\ClientAddress$ClientAddressBuilder.class
 ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRQ$ClientPhoneRQBuilder.class
 ec\edu\espe\arquitectura\banquito\dto\GroupCompanyMemberRS.class
 ec\edu\espe\arquitectura\banquito\dto\GroupCompanyRS$GroupCompanyRSBuilder.class
+ec\edu\espe\arquitectura\banquito\security\UserDetailsServiceImpl.class
 ec\edu\espe\arquitectura\banquito\BanquitoApplication.class
 ec\edu\espe\arquitectura\banquito\model\ClientAddress.class
 ec\edu\espe\arquitectura\banquito\model\GroupCompanyMember.class
@@ -17,9 +18,11 @@ ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRQ.class
 ec\edu\espe\arquitectura\banquito\dto\ClientRQ.class
 ec\edu\espe\arquitectura\banquito\dto\ClientRQ$ClientRQBuilder.class
 ec\edu\espe\arquitectura\banquito\model\ClientPhone$ClientPhoneBuilder.class
+ec\edu\espe\arquitectura\banquito\security\AuthCredentials.class
 ec\edu\espe\arquitectura\banquito\service\ClientService.class
 ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRS$ClientPhoneRSBuilder.class
 ec\edu\espe\arquitectura\banquito\dto\GroupCompanyMemberRQ$GroupCompanyMemberRQBuilder.class
+ec\edu\espe\arquitectura\banquito\security\WebSecurityConfig.class
 ec\edu\espe\arquitectura\banquito\dto\ClientAddressRQ$ClientAddressRQBuilder.class
 ec\edu\espe\arquitectura\banquito\model\ClientPhone.class
 ec\edu\espe\arquitectura\banquito\config\CorsConfig.class
@@ -28,11 +31,15 @@ ec\edu\espe\arquitectura\banquito\dto\ClientRS.class
 ec\edu\espe\arquitectura\banquito\service\GroupCompanyService.class
 ec\edu\espe\arquitectura\banquito\dto\ClientAddressRQ.class
 ec\edu\espe\arquitectura\banquito\dto\ClientAddressRS$ClientAddressRSBuilder.class
+ec\edu\espe\arquitectura\banquito\security\TokenUtils.class
+ec\edu\espe\arquitectura\banquito\security\UserDetailsImpl.class
 ec\edu\espe\arquitectura\banquito\dto\GroupCompanyMemberRS$GroupCompanyMemberRSBuilder.class
+ec\edu\espe\arquitectura\banquito\security\JWTAuthorizationFilter.class
 ec\edu\espe\arquitectura\banquito\config\CorsConfig$1.class
 ec\edu\espe\arquitectura\banquito\dto\GroupCompanyRS.class
 ec\edu\espe\arquitectura\banquito\dto\ClientRS$ClientRSBuilder.class
 ec\edu\espe\arquitectura\banquito\model\GroupCompanyMember$GroupCompanyMemberBuilder.class
+ec\edu\espe\arquitectura\banquito\security\JWTAuthenticationFilter.class
 ec\edu\espe\arquitectura\banquito\dto\ClientAddressRS.class
 ec\edu\espe\arquitectura\banquito\model\GroupCompany.class
 ec\edu\espe\arquitectura\banquito\repository\ClientRepository.class
