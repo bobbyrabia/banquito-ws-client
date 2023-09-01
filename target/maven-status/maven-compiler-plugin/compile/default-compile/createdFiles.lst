@@ -18,6 +18,7 @@ ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRQ.class
 ec\edu\espe\arquitectura\banquito\dto\ClientRQ.class
 ec\edu\espe\arquitectura\banquito\dto\ClientRQ$ClientRQBuilder.class
 ec\edu\espe\arquitectura\banquito\model\ClientPhone$ClientPhoneBuilder.class
+ec\edu\espe\arquitectura\banquito\exception\CustomException.class
 ec\edu\espe\arquitectura\banquito\security\AuthCredentials.class
 ec\edu\espe\arquitectura\banquito\service\ClientService.class
 ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRS$ClientPhoneRSBuilder.class

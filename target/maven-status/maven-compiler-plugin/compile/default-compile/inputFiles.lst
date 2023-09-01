@@ -6,6 +6,7 @@ C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\mod
 C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\TokenUtils.java
 C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\service\ClientService.java
 C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\ClientPhone.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\exception\CustomException.java
 C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\UserDetailsImpl.java
 C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\Client.java
 C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\BanquitoApplication.java
