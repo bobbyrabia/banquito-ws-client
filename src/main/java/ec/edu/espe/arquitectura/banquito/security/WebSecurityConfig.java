@@ -27,10 +27,13 @@ public class WebSecurityConfig {
         JWTAuthenticationFilter jwtAuthenticationFilter=new JWTAuthenticationFilter();
         jwtAuthenticationFilter.setAuthenticationManager(authManager);
         jwtAuthenticationFilter.setFilterProcessesUrl("/login");
-        return http.csrf().disable()
+        return http
+                .cors()
+                .and()
+                .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("login")
-                .permitAll()
+//                .requestMatchers("/api/v2/**")
+//                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
