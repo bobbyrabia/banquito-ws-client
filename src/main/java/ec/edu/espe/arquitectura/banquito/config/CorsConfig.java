@@ -18,7 +18,7 @@ public class CorsConfig {
                         .exposedHeaders("*")
                         .allowedMethods("*");
                 registry.addMapping("/api/**")
-                        .allowedOrigins("https://striped-reserve-397605.web.app","https://banquito-backoffice.web.app/","https://banquito-bancaweb.web.app/","https://banquito-tellerapp.web.app/","http://localhost:4200")
+                        .allowedOrigins("https://striped-reserve-397605.web.app","https://banquito-backoffice-v2.web.app/","https://banquito-bancaweb-v2.web.app/","https://banquito-tellerapp-v2.web.app/","https://banquito-backoffice.web.app/","https://banquito-bancaweb.web.app/","https://banquito-tellerapp.web.app/","http://localhost:4200")
                         .exposedHeaders("Content-Disposition")
                         .allowedMethods("*");
             }
