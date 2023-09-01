@@ -13,9 +13,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private ClientRepository clientRepository;
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
-        Client client= clientRepository.findFirstByEmailAddress(email).orElseThrow(
-                ()->new UsernameNotFoundException("El usuario con ese correo electrónico no existe"+email)
+    public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException{
+        Client client= clientRepository.findFirstByEmailAddress(emailAddress).orElseThrow(
+                ()->new UsernameNotFoundException("El usuario con ese correo electrónico no existe"+emailAddress)
         );
         return new UserDetailsImpl(client);
     }
