@@ -1,23 +1,30 @@
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\Client.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyMemberRS.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyRQ.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\GroupCompanyMember.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\ClientPhone.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientAddressRQ.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\controller\CompanyController.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRS.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyRS.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\GroupCompany.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\config\CorsConfig.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\repository\ClientRepository.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\repository\GroupCompanyRepository.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\BanquitoApplication.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\service\ClientService.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRQ.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyMemberRQ.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\service\GroupCompanyService.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientRQ.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientRS.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\ClientAddress.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientAddressRS.java
-E:\SEMESTRE 23-23\ARQUITECTURA\Arquitectura Final\Backend\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\controller\ClientController.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\repository\GroupCompanyRepository.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyRQ.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientRS.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\repository\ClientRepository.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\GroupCompanyMember.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\TokenUtils.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\service\ClientService.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\ClientPhone.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\UserDetailsImpl.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\Client.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\BanquitoApplication.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\controller\ClientController.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientRQ.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRQ.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\AuthCredentials.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\GroupCompany.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\WebSecurityConfig.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\service\GroupCompanyService.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\config\CorsConfig.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientPhoneRS.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyMemberRQ.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\JWTAuthorizationFilter.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientAddressRS.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\model\ClientAddress.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyMemberRS.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\GroupCompanyRS.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\dto\ClientAddressRQ.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\controller\CompanyController.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\UserDetailsServiceImpl.java
+C:\GitHub\banquito-ws-client\src\main\java\ec\edu\espe\arquitectura\banquito\security\JWTAuthenticationFilter.java
