@@ -14,7 +14,7 @@ import ec.edu.espe.arquitectura.banquito.model.GroupCompany;
 import ec.edu.espe.arquitectura.banquito.service.GroupCompanyService;
 
 @RestController
-@RequestMapping("api/v2/companies")
+@RequestMapping("/api/v2/companies")
 @CrossOrigin
 public class CompanyController {
     private final GroupCompanyService groupCompanyService;
